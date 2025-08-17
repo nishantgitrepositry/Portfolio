@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>3D Animated Portfolio Template</title>
+    <meta
+      name="description"
+      content="A colorful, responsive, 3D-animated portfolio template made with pure HTML, CSS and JavaScript."
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --txt: #eef2ff;
+        --muted: #b8c1ec;
+        --brand: #7c3aed; /* purple */
+        --brand-2: #06b6d4; /* cyan */
+        --brand-3: #f59e0b; /* amber */
+        --card: #121734;
+        --glass: rgba(255, 255, 255, 0.08);
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --radius-2xl: 22px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto,
+          sans-serif;
+        color: var(--txt);
+        background: radial-gradient(
+            1200px 600px at 10% -10%,
+            #1a234f 0%,
+            transparent 60%
+          ),
+          radial-gradient(1000px 500px at 90% 0%, #092742 0%, transparent 60%),
+          var(--bg);
+        overflow-x: hidden;
+      } /* ---------- Global Layout ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(8px);
+        background: linear-gradient(
+          90deg,
+          rgba(12, 16, 34, 0.75),
+          rgba(12, 16, 34, 0.35)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .logo-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+        box-shadow: 0 0 12px var(--brand-2);
+      }
+      .links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 10px;
+        transition: 0.2s ease;
+      }
+      .links a:hover {
+        color: var(--txt);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      } /* ---------- Hero ---------- */
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+        gap: 28px;
+        padding: 64px 0 40px;
+      }
+      .kicker {
+        color: var(--brand-2);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+      .title {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.1;
+        margin: 0.4rem 0 1rem;
+        font-weight: 800;
+      }
+      .subtitle {
+        color: var(--muted);
+        max-width: 60ch;
+      }
+      .cta {
+        margin-top: 24px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 14px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        box-shadow: var(--shadow);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn.primary {
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      }
+      .btn.ghost {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--txt);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      } /* 3D Stage */
+      .stage {
+        position: relative;
+        perspective: 1200px;
+        height: 340px;
+      }
+      .orbital {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        animation: spin 18s linear infinite;
+      }
+      .cube {
+        position: absolute;
+        width: 110px;
+        height: 110px;
+        transform-style: preserve-3d;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotateX(22deg) rotateY(35deg);
+      }
+      .cube:nth-child(1) {
+        transform: translate(-50%, -50%) translateZ(120px) rotateX(22deg)
+          rotateY(35deg);
+      }
+      .cube:nth-child(2) {
+        transform: translate(-50%, -50%) translateX(-180px) translateZ(-40px)
+          rotateX(-15deg) rotateY(15deg);
+      }
+      .cube:nth-child(3) {
+        transform: translate(-50%, -50%) translateX(180px) translateY(40px)
+          translateZ(40px) rotateX(15deg) rotateY(-25deg);
+      }
+      .face {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(124, 58, 237, 0.95),
+          rgba(6, 182, 212, 0.95)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.25);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .cube .face {
+        width: 100%;
+        height: 100%;
+      }
+      .front {
+        transform: translateZ(55px);
+      }
+      .back {
+        transform: rotateY(180deg) translateZ(55px);
+      }
+      .right {
+        transform: rotateY(90deg) translateZ(55px);
+      }
+      .left {
+        transform: rotateY(-90deg) translateZ(55px);
+      }
+      .top {
+        transform: rotateX(90deg) translateZ(55px);
+      }
+      .bottom {
+        transform: rotateX(-90deg) translateZ(55px);
+      }
+      @keyframes spin {
+        to {
+          transform: rotateY(360deg);
+        }
+      } /* ---------- Sections ---------- */
+      section {
+        margin: 64px 0;
+      }
+      .section-title {
+        font-size: clamp(1.4rem, 2.6vw, 2rem);
+        margin-bottom: 18px;
+      }
+      .muted {
+        color: var(--muted);
+      } /* Cards */
+      .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      .card {
+        grid-column: span 4;
+        background: linear-gradient(
+          180deg,
+          var(--glass),
+          rgba(255, 255, 255, 0.03)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-2xl);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        backdrop-filter: blur(6px);
+      }
+      .card:hover {
+        transform: translateY(-6px) rotateX(3deg) rotateY(-3deg);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      }
+      .thumb {
+        aspect-ratio: 16/9;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #a5b4fc;
+      }
+      .card .body {
+        padding: 16px 16px 18px;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(124, 58, 237, 0.2);
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #d4ccff;
+      }
+      .pill {
+        display: inline-flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .pill span {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: #c7d2fe;
+      } /* Contact */
+      .contact {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: center;
+        background: linear-gradient(
+          90deg,
+          rgba(124, 58, 237, 0.14),
+          rgba(6, 182, 212, 0.14)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 24px;
+        border-radius: var(--radius-2xl);
+      }
+      .contact a.btn {
+        justify-self: start;
+      } /* Footer */
+      footer {
+        padding: 40px 24px 60px;
+        color: var(--muted);
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      } /* ---------- Responsive ---------- */
+      @media (max-width: 1000px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+        .stage {
+          height: 280px;
+        }
+      }
+      @media (max-width: 900px) {
+        .card {
+          grid-column: span 6;
+        }
+        .contact {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .card {
+          grid-column: span 12;
+        }
+        .links {
+          display: none;
+        }
+      } /* ---------- Motion preferences ---------- */
+      @media (prefers-reduced-motion: reduce) {
+        .orbital {
+          animation: none;
+        }
+        .card,
+        .btn {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav">
+        <div class="logo">
+          <span class="logo-dot"></span> Nishant Doble • Portfolio
+        </div>
+        <nav class="links">
+          <a href="#about">About</a> <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a> <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <!-- Hero -->
+      <section class="hero" id="home">
+        <div>
+          <div class="kicker">
+            Data Analyst • Power BI • SQL • Python • EXCEL
+          </div>
+          <h1 class="title">
+            <span
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--brand),
+                  var(--brand-2),
+                  var(--brand-3)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+              "
+              >Data Analyst</span
+            >
+            Portfolio
+          </h1>
+          <p class="subtitle">
+            Data Analyst with expertise in Power BI, SQL, Excel, and Python, turning raw data into actionable insights.
+          </p>
+          <div><p class="subtitle">Transforming Data into Decisions</p></div>
+          <div class="cta">
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn ghost" href="#contact">Contact Me</a>
+          </div>
+          <div><p class="subtitle">Explore my dashboards and see how I uncover insights that drive business impact.</p></div>
+        </div>
+        <!-- 3D Stage -->
+        <div class="stage" aria-hidden="true">
+          <div class="orbital">
+            <div class="cube">
+              <div class="face front">SQL</div>
+              <div class="face back">DAX</div>
+              <div class="face right">BI</div>
+              <div class="face left">ETL</div>
+              <div class="face top">PY</div>
+              <div class="face bottom">XL</div>
+            </div>
+            <div class="cube">
+              <div class="face front">KPI</div>
+              <div class="face back">ROI</div>
+              <div class="face right">TIME</div>
+              <div class="face left">COST</div>
+              <div class="face top">QA</div>
+              <div class="face bottom">QA</div>
+            </div>
+            <div class="cube">
+              <div class="face front">API</div>
+              <div class="face back">JSON</div>
+              <div class="face right">DB</div>
+              <div class="face left">SQL</div>
+              <div class="face top">AI</div>
+              <div class="face bottom">ML</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ===== Resume Section ===== -->
+      <section
+        id="resume"
+        style="
+          padding: 60px 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(10px);
+          border-radius: 15px;
+          max-width: 900px;
+          margin: 50px auto;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+          flex-wrap: wrap;
+        "
+      >
+        <!-- Profile Image -->
+        <div style="flex: 1; min-width: 250px; text-align: center">
+          <img
+            src="Nishant_Image.jpg"
+            alt="Profile Photo"
+            style="
+              width: 250px;
+              height: 250px;
+              object-fit: cover;
+              border-radius: 50%;
+              border: 4px solid #ff9800;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            "
+          />
+        </div>
+        <!-- Resume Text -->
+        <div style="flex: 2; min-width: 300px; padding: 20px">
+          <h2 style="font-size: 2rem; margin-bottom: 10px; color: #fff">
+            Resume
+          </h2>
+          <p style="font-size: 1.1rem; line-height: 1.6; color: #ddd">
+            Experienced and detail-oriented professional with 2 years of experience in Software Engineering (Email Marketing) and 6 months of internship as a Data Analyst. Proven track record of delivering actionable insights using Power BI and developing solutions to optimize business performance.
+          </p>
+          <h3 style="margin-top: 20px; color: #fff">Key Highlights</h3>
+          <ul style="color: #ccc; line-height: 1.8; font-size: 1rem">
+            <li>Experience:
+                • 2+ years as Software Engineer (Email Marketing)
+                • 6 months as Data Analyst Intern Through Intershala</li>
+            <li>Skills: Power BI, SQL, Excel, Python, Email Marketing, Data Visualization,Data Analysis</li>
+            <li>Achievements: Created 6+ interactive dashboards in Power BI showcasing business insights</li>
+          </ul>
+          <!-- Download Button -->
+
+
+
+          <a
+            href="Pratham__Resume.docx"
+            download
+            style="
+              display: inline-block;
+              margin-top: 20px;
+              padding: 12px 25px;
+              background: #ff9800;
+              color: #fff;
+              border-radius: 50px;
+              font-weight: 600;
+              text-decoration: none;
+              transition: 0.3s;
+            "
+          >
+            📥 Download Resume
+          </a>
+        </div>
+      </section>
+      <!-- Projects -->
+      <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <p class="muted">
+          <br />Flip the cards and explore. Replace the thumbnails and links
+          with your real dashboards or GitHub repositry
+        </p>
+        <div class="grid" style="margin-top: 16px">
+          <!-- Card 1 -->
+
+          <article class="card tilt" tabindex="0">
+            <div class="thumb">
+              <img
+                src="hospital.png"
+                alt="Healthcare Dashboard"
+                width="100px"
+              />
+              HEALTHCARE
+            </div>
+            <div class="body">
+              <div class="pill" style="margin-bottom: 10px">
+                <span>Power BI</span><span>DAX</span><span>Excel</span>
+              </div>
+              <h3 style="margin: 6px 0 8px">Healthcare Dashboard</h3>
+              <p class="muted">
+                Real-time patient monitoring, diagnostic trends, and healthcare resource utilization.
+              </p>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                "
+              >
+                <a
+                  class="btn primary"
+                  href="Health_dash.html"
+                  onclick="openModal('Popup1'); return false;"
+                  >Live Demo</a
+                >
+                <a class="btn ghost" href="https://github.com/nishantgitrepositry/Health-dashboard" target="_blank" rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+
+
+          <!-- Card 2 -->
+          <article class="card tilt" tabindex="0">
+            <div class="thumb">
+              <img
+                src="marketing.png"
+                alt="Marketing Campaign Dashboard"
+                width="140px"
+                height="117px"
+              />
+              MARKETING CAMPAIGN
+            </div>
+            <div class="body">
+              <div class="pill" style="margin-bottom: 10px">
+                <span>Power BI</span><span>DAX</span><span>Excel</span>
+              </div>
+              <h3 style="margin: 6px 0 8px">Marketing Campaign Dashboard</h3>
+              <p class="muted">
+                Trends, product performance, cohorts, and region KPIs with
+                drill-through pages.
+              </p>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                "
+              >
+                <a
+                  class="btn primary"
+                  href="Marketing Dashboards.pdf"
+                  onclick="openModal('Popup2'); return false;"
+                  >Live Demo</a
+                >
+                <a class="btn ghost" href="https://github.com/nishantgitrepositry/Marketing_-Dashboards" target="_blank" rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+          <!-- Card 3 -->
+          <article class="card tilt" tabindex="0">
+            <div class="thumb">
+              <img
+                src="Credit.card.png"
+                alt="Credit Card Analysis"
+                style="width: 280px; height: 100px; object-fit: cover"
+              />CREDIT CARD
+            </div>
+            <div class="body">
+              <div class="pill" style="margin-bottom: 10px">
+                <span>SQL</span><span>Power BI</span><span>DAX</span>
+              </div>
+              <h3 style="margin: 6px 0 8px">Credit Card Analysis</h3>
+              <p class="muted">
+                Customer segments, delinquency risk, and revenue levers with
+                anomaly alerts.
+              </p>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                "
+              >
+                <!-- Live Demo button linking to a separate HTML page -->
+                <a
+                  class="btn primary"
+                  href="PowerBI_Demo.html"
+                  onclick="openModal('Popup3'); return false;"
+                  >Live Demo</a
+                >
+                <a
+                  class="btn ghost"
+                  href="https://github.com/nishantgitrepositry/credit_card"
+                  target="_blank"
+                  rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+          <!-- Card 4 -->
+          <article class="card tilt" tabindex="0">
+            <div class="thumb">
+              <img
+                src="Blinkit.png"
+                alt=" Blinkit Analysis"
+                style="width: 280px; height: 100px; object-fit: cover"
+              />BLINKIT
+            </div>
+            <div class="body">
+              <div class="pill" style="margin-bottom: 10px">
+                <span>Python</span><span>Pandas</span><span>BI</span>
+              </div>
+              <h3 style="margin: 6px 0 8px">Blinkit Data Analysis</h3>
+              <p class="muted">
+                Delivery SLAs, dark-store ops KPIs, and route efficiency
+                insights.
+              </p>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                "
+              >
+                <a
+                  class="btn primary"
+                  href="Blinkit_Dash.html"
+                  onclick="openModal('Popup4'); return false;"
+                  >Live Demo</a
+                >
+                <a class="btn ghost" href="https://github.com/nishantgitrepositry/Blinkit-Dashboard" target="_blank" rel="noopener"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+      <!-- Skills -->
+      <section id="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="grid" style="margin-top: 12px">
+          <div class="card tilt">
+            <div class="thumb">SQL</div>
+            <div class="body">
+              <span class="tag">Databases</span>
+              <h3>SQL & Data Modeling</h3>
+              <p class="muted">
+                Joins, CTEs, window functions, views, and star schemas.
+              </p>
+            </div>
+          </div>
+          <div class="card tilt">
+            <div class="thumb">PY</div>
+            <div class="body">
+              <span class="tag">Python</span>
+              <h3>Python Analytics</h3>
+              <p class="muted">
+                Pandas, NumPy, matplotlib; EDA and automation scripts.
+              </p>
+            </div>
+          </div>
+          <div class="card tilt">
+            <div class="thumb">BI</div>
+            <div class="body">
+              <span class="tag">Power BI</span>
+              <h3>Dashboards & DAX</h3>
+              <p class="muted">
+                Interactive visuals, measures, tooltips, and row-level security.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ===== Certifications Section ===== -->
+      <section id="certifications">
+        <h2>📜 My Certifications</h2>
+        <p>Here are some of my verified achievements & skills</p>
+        <div class="cert-container">
+          <div
+            class="cert-card"
+            data-title="Excel Certificate"
+            data-issuer="Internshala"
+            data-description="Advanced Excel certification."
+            data-image="Excel.jpeg"
+          >
+            <h3>Excel Certificate</h3>
+            <p>Issued by Internshala</p>
+          </div>
+          <div
+            class="cert-card"
+            data-title="SQL for Data Analysis"
+            data-issuer="Internshala"
+            data-description="Hands-on training in SQL queries, joins, and optimization for data analytics."
+            data-image="SQL.jpeg"
+          >
+            <h3>SQL for Data Analysis</h3>
+            <p>Issued by Internshala</p>
+          </div>
+          <div
+            class="cert-card"
+            data-title="Data Visualization with Tableau"
+            data-issuer="Internshala"
+            data-description="Interactive dashboards and storytelling using Tableau software."
+            data-image="Tableau.jpeg"
+          >
+            <h3>Data Visualization with Tableau</h3>
+            <p>Issued by Internshala</p>
+          </div>
+        </div>
+      </section>
+      <!-- ===== Popup Modal ===== -->
+      <div id="certModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <img
+            id="modalImage"
+            src=""
+            alt="Certificate"
+            style="max-width: 100%; border-radius: 8px; margin-bottom: 10px"
+          />
+          <h3 id="modalTitle"></h3>
+          <p id="modalIssuer"></p>
+          <p id="modalDescription"></p>
+        </div>
+      </div>
+      <style>
+        /* ===== Certifications Section Styling ===== */
+        #certifications {
+          padding: 60px 20px;
+          background: linear-gradient(145deg, #0f172a, #1e293b);
+          text-align: center;
+          color: white;
+        }
+        #certifications h2 {
+          font-size: 2rem;
+          margin-bottom: 10px;
+        }
+        #certifications p {
+          color: #94a3b8;
+          font-size: 1rem;
+          margin-bottom: 30px;
+        }
+        .cert-container {
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .cert-card {
+          background: linear-gradient(145deg, #1e293b, #0f172a);
+          padding: 20px;
+          border-radius: 15px;
+          width: 280px;
+          cursor: pointer;
+          box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+          transform: perspective(600px) rotateX(0deg) rotateY(0deg);
+          transition: transform 0.4s ease, box-shadow 0.3s ease;
+        }
+        .cert-card:hover {
+          transform: perspective(600px) rotateX(5deg) rotateY(-5deg) scale(1.05);
+          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+        }
+        .cert-card h3 {
+          color: #f8fafc;
+          font-size: 1.2rem;
+        }
+        .cert-card p {
+          color: #94a3b8;
+          margin-top: 5px;
+        } /* ===== Modal Styling ===== */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 999;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(15, 23, 42, 0.9);
+        }
+        .modal-content {
+          background: #1e293b;
+          color: white;
+          margin: 5% auto;
+          padding: 30px;
+          border-radius: 15px;
+          width: 90%;
+          max-width: 500px;
+          text-align: center;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+          animation: fadeIn 0.4s ease;
+        }
+        .modal-content h3 {
+          margin-bottom: 10px;
+        }
+        .close {
+          color: #fff;
+          float: right;
+          font-size: 24px;
+          cursor: pointer;
+        }
+        .close:hover {
+          color: #38bdf8;
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+</style>
+
+
+<script>
+// ===== Popup Functionality =====
+
+
+const modal = document.getElementById("certModal");
+const closeBtn = document.querySelector(".close");
+const modalTitle = document.getElementById("modalTitle");
+const modalIssuer = document.getElementById("modalIssuer");
+const modalDescription = document.getElementById("modalDescription");
+const modalImage = document.getElementById("modalImage");
+
+document.querySelectorAll(".cert-card").forEach(card => {
+  card.addEventListener("click", () => {
+    modalTitle.textContent = card.dataset.title;
+    modalIssuer.textContent = "Issued by: " + card.dataset.issuer;
+    modalDescription.textContent = card.dataset.description;
+    modalImage.src = card.dataset.image;
+    modal.style.display = "block";
+  });
+});
+
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+  window.location.href = "#"; // Home page scroll
+};
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    window.location.href = "#"; // Home page scroll
+  }
+};
+
+
+</script>
+      <!-- Contact CTA -->
+      <section
+        id="contact"
+        style="
+          padding: 50px 0;
+          background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+          color: white;
+        "
+      >
+        <div style="max-width: 900px; margin: auto; text-align: center">
+          <h2
+            style="
+              font-size: 2.5rem;
+              margin-bottom: 10px;
+              text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            "
+          >
+            🚀 Let’s Build Something Great!
+          </h2>
+          <p style="color: #ccc; font-size: 1.1rem; margin-bottom: 40px">
+            Open for freelance & full-time roles. Usually reply within 24 hours.
+          </p>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 30px;
+              flex-wrap: wrap;
+              perspective: 1000px;
+            "
+          >
+            <!-- Email -->
+            <a
+              href="nishantdoble03@gmail.com"
+              target="_blank"
+              style="
+                background: #ff6b6b;
+                padding: 20px 30px;
+                border-radius: 15px;
+                text-decoration: none;
+                color: white;
+                font-size: 1.2rem;
+                font-weight: bold;
+                transform-style: preserve-3d;
+                transition: transform 0.4s, box-shadow 0.4s;
+              "
+            >
+              📧 Email Me
+            </a>
+            <!-- LinkedIn -->
+            <a
+              href="http://www.linkedin.com/in/nishant-doble-49728b221"
+              target="_blank"
+              style="
+                background: #0077b5;
+                padding: 20px 30px;
+                border-radius: 15px;
+                text-decoration: none;
+                color: white;
+                font-size: 1.2rem;
+                font-weight: bold;
+                transform-style: preserve-3d;
+                transition: transform 0.4s, box-shadow 0.4s;
+              "
+            >
+              💼 LinkedIn
+            </a>
+            <!-- GitHub -->
+            <a
+              href="https://github.com/nishantgitrepositry"
+              target="_blank"
+              style="
+                background: #333;
+                padding: 20px 30px;
+                border-radius: 15px;
+                text-decoration: none;
+                color: white;
+                font-size: 1.2rem;
+                font-weight: bold;
+                transform-style: preserve-3d;
+                transition: transform 0.4s, box-shadow 0.4s;
+              "
+            >
+              🖥 GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>© <span id="y"></span> Nishant • 3D Portfolio Template</footer>
+    <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // 3D Tilt on cards
+    const tiltCards = document.querySelectorAll('.tilt');
+    const clamp = (n, min, max) => Math.max(min, Math.min(n, max));
+
+    tiltCards.forEach(card => {
+      let bounds;
+      function rotateToMouse(e){
+        const mouseX = e.clientX - bounds.left;
+        const mouseY = e.clientY - bounds.top;
+        const rx = clamp(((mouseY / bounds.height) - 0.5) * -12, -12, 12);
+        const ry = clamp(((mouseX / bounds.width) - 0.5) * 12, -12, 12);
+        card.style.transform = `translateY(-6px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      }
+      card.addEventListener('mouseenter', () => { bounds = card.getBoundingClientRect(); card.style.transition = 'transform .08s ease'; });
+      card.addEventListener('mousemove', rotateToMouse);
+      card.addEventListener('mouseleave', () => { card.style.transition = 'transform .25s ease'; card.style.transform = ''; });
+      card.addEventListener('focus', () => card.classList.add('focus')); // keyboard focus
+      card.addEventListener('blur', () => card.classList.remove('focus'));
+    });
+
+    // Reveal on scroll (IntersectionObserver)
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry => {
+        if(entry.isIntersecting){ entry.target.classList.add('in'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.card').forEach(el=>{ el.style.opacity = 0; el.style.transform += ' translateY(18px)'; observer.observe(el); });
+
+    const style = document.createElement('style');
+    style.textContent = `.card.in{opacity:1 !important; transform: none !important; transition: opacity .5s ease, transform .5s ease }`;
+    document.head.appendChild(style);
+  </script>
+    <!-- Modal Structure -->
+     <!--Project 1-->
+    <div id="Popup1" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('Popup1')">&times;</span>
+        <iframe id="demoFrame1" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+
+         <!--Project 2-->
+    <div id="Popup2" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('Popup2')">&times;</span>
+        <iframe id="demoFrame2" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+         
+         <!--Project 3-->
+
+    <div id="Popup3" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('Popup3')">&times;</span>
+        <iframe id="demoFrame3" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+
+         <!--Project 4-->
+
+    <div id="Popup4" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('Popup4')">&times;</span>
+        <iframe id="demoFrame4" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <!-- CSS -->
+    <style>
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        padding-top: 40px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+      .modal-content {
+        position: relative;
+        margin: auto;
+        background: white;
+        padding: 0;
+        width: 90%;
+        max-width: 1000px;
+        height: 90%;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .modal-content iframe {
+        width: 100%;
+        height: 100%;
+      }
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+      }
+      .close:hover {
+        color: red;
+      }
+    </style>
+    <!-- JS -->
+    <script>
+      function openModal(id) {
+        document.getElementById(id).style.display = "block";
+        document.getElementById("demoFrame1").src = "Health_dash.html";
+        document.getElementById("demoFrame2").src = "Marketing_Campaign Dashboard_Dash.html";
+        document.getElementById("demoFrame3").src = "PowerBi_Demo.html";
+        document.getElementById("demoFrame4").src = "Blinkit_Dash.html";
+
+      }
+      function closeModal(id) {
+        document.getElementById(id).style.display = "none";
+        document.getElementById("demoFrame").src = "";
+      }
+      window.onclick = function (event) {
+        if (event.target == document.getElementById(id)) {
+          closeModal(id);
+        }
+      };
+    </script>
+  </body>
+</html>
